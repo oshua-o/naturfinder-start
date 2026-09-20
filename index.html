@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Naturfinder Start – Sammle Tiere und Pflanzen</title>
+<meta name="description" content="Entdecke heimische Tier- und Pflanzenarten in verschiedenen Kategorien und dokumentiere deinen Fortschritt." />
+
+<!-- Home-Screen -->
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Feldbuch" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="theme-color" content="#240d58" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Krub:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./main.css" />
+
+</head>
+<body>
+
+  <section id="picture">
+    <img src="./icon.webp" alt="Tierlist" class="avatar" />
+  </section>
+
+  <section id="content" class="feldbuch">
+
+    <!-- ==================== STARTSEITE ==================== -->
+    <div id="homeView">
+      <h1>Naturfinder Start – Sammle Tiere und Pflanzen</h1>
+
+      <div class="intro-backdrop" id="introBackdrop">
+        <div class="intro-sheet">
+          <h2>Hallo! Das hier ist der "Naturfinder" 🐦🦎</h2>
+          <p>
+            Hier kannst Du Tiere und Pflanzen sammeln! In verschiedenen Kategorien findest Du hier heimische Arten aufgelistet. Du kannst ein Foto machen oder ein gemachtes Foto eintragen und so Deinen Fortschritt bei der Suche dokumentieren!<br><br>
+            Jede Kategorie beinhaltet bekannte Familien, Gattungen oder Arten. Manche dieser Gruppen enthalten sehr viele Arten, die teilweise auch sehr unterschiedlich aussehen können. Die Beispielbilder zeigen Dir, wie diese aussehen können, aber immer nur an einem Beispiel.<br><br>
+            Vorsicht! Das Ganze funktioniert nur in Deiner App. Alles wird nur lokal bei Dir gespeichert. Etwaige Updates etc. Deines Browsers könnten die Daten wieder löschen. Keine Deiner Fotos müssen hochgeladen werden oder werden auf einem Server gespeichert. 
+          </p>
+          <button class="intro-close-btn" id="introClose">Start</button>
+        </div>
+      </div>
+
+      <p>
+        Entdecke Tiere und Pflanzen und dokumentiere, wie viele Du schon gefunden hast.
+      </p>
+
+      <button class="readme-btn" id="readmeBtn">Anleitung</button>
+      <button class="readme-btn" id="creditsBtn">Bildnachweise</button>
+
+      <div class="category-grid" id="categoryGrid"></div>
+    </div>
+
+    <!-- ==================== KATEGORIE-DETAILSEITE ==================== -->
+    <div id="categoryView" style="display:none;">
+      <button class="back-btn" id="backBtn">← Zurück</button>
+      <button class="pdf-btn" id="pdfExportBtn">PDF exportieren</button>
+      <h1 id="categoryTitle"></h1>
+      <p id="categorySubtitle"></p>
+
+      <p class="progress-stats">
+        <span style="color:#240d58;">fotografiert: <strong id="statText">0 / 0</strong></span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      </p>
+
+      <div class="search-row">
+        <input id="searchInput" type="search" placeholder="Art suchen…" autocomplete="off" />
+        <button class="filter-btn" id="filterBtn" aria-pressed="false">noch nicht gefunden</button>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+
+  </section>
+
+  <div class="sheet-backdrop" id="readmeBackdrop">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h1>Naturfinder Start – Sammle Tiere und Pflanzen</h1>
+      <div class="readme-content">
+        <h2>Anleitung</h2>
+        <p>Du darfst jede Änderung an dieser "App" vornehmen, die Du möchtest. Wenn Du meiner Variante folgen möchtest, machst Du das folgendermaßen:</p>
+        <h3>Die Seite selbst</h3>
+        <p>
+          Auf der Startseite findest Du verschiedene Kategorien. Tippe eine Kategorie an, um die zugehörigen Tiere und Pflanzen zu sehen. Hier kannst Du Fotos direkt machen oder für die entsprechenden Arten eintragen und speichern. Der Fortschritt wird Dir oben angezeigt. Du kannst auch Fotos wieder löschen und durch andere ersetzen. Du kannst Dir Notizen zu Ort und Datum unter jeder Beobachtung machen.<br>
+          Du speicherst alle Daten direkt in Deinem Browser-Cache. Das kann dazu führen, dass (wenn Du große Fotos hochlädst) der Cache sehr groß wird. <br>
+          Ich kann nicht garantieren, dass Updates Deines Browsers, Deines Betriebssystems etc. die Daten nicht wieder löschen. <br>
+          Keine Daten werden hochgeladen oder auf Servern gespeichert. Du hast die volle Kontrolle über Deine Fotos.
+        </p>
+        <h3>Web App einrichten</h3>
+        <p>
+          In Safari kannst Du die Seite als Web App speichern. Dafür gehst Du auf<br>
+          1) "Share"<br>
+          2) "Add to Home Screen"<br>
+          3) Dann kannst Du den Namen "Tierlist" beibehalten oder einen anderen Namen vergeben.<br>
+          4) Lasse "Open as Web App" angeschaltet.<br>
+          5) Klicke auf "Add".<br>
+          6) Jetzt ist die App auf Deinem Home Screen und Du kannst sie wie ein anderes App-Icon auch verschieben.<br><br>
+          In Andoid-Systemen kannst Du auf die drei Einstellungs-Punkte gehen und mit "Installieren und Verknüpfen" die Web-App einrichten.
+        </p>
+      </div>
+      <button class="cancel-btn" id="closeReadme">Schließen</button>
+    </div>
+  </div>
+  <div class="sheet-backdrop" id="creditsBackdrop">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h2>Bildnachweise</h2>
+      <p style="font-size:.8rem;color:#666;margin-top:-.3rem;">
+        Die Beispielbilder werden von iNaturalist geladen. Alle davon stehen unter Creative-Commons-Lizenzen.
+      </p>
+      <div class="credits-content" id="creditsContent"></div>
+      <button class="cancel-btn" id="closeCredits">Schließen</button>
+    </div>
+  </div>
+
+  <!-- Eigene Art hinzufügen -->
+  <div class="sheet-backdrop" id="customBackdrop">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h2>Eigene Art hinzufügen</h2>
+      <div class="custom-form">
+        <div>
+          <label for="customName">Name</label>
+          <input type="text" id="customName" placeholder="z.B. Distelfink" />
+        </div>
+        <div>
+          <label for="customSci">Wissenschaftlicher Name (optional)</label>
+          <input type="text" id="customSci" placeholder="z.B. Carduelis carduelis" />
+        </div>
+        <button class="custom-submit-btn" id="customSubmitBtn">Hinzufügen</button>
+      </div>
+      <button class="cancel-btn" id="cancelCustom">Abbrechen</button>
+    </div>
+  </div>
+
+  <!--  -->
+  <div class="sheet-backdrop" id="captureBackdrop">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h2 id="captureName"></h2>
+      <div class="sci" id="captureSci"></div>
+      <img class="capture-hint-photo" id="captureHintPhoto" alt="" style="display:none;" />
+      <div class="capture-options">
+        <button class="capture-btn" id="btnCamera">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" stroke="#240d58" stroke-width="1.6"/><circle cx="12" cy="13" r="3.4" stroke="#240d58" stroke-width="1.6"/></svg>
+          Foto aufnehmen
+        </button>
+        <button class="capture-btn" id="btnLibrary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke="#240d58" stroke-width="1.6"/><path d="M3.5 15.5 8 11l3 3 4-4.5 5.5 6" stroke="#240d58" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8" cy="8.5" r="1.4" fill="#240d58"/></svg>
+          Foto eintragen
+        </button>
+      </div>
+      <button class="cancel-btn" id="cancelCapture">Stop</button>
+    </div>
+  </div>
+
+  <!--  -->
+  <div class="sheet-backdrop" id="zoomBackdrop">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <img class="zoom-photo" id="zoomPhoto" alt="" />
+      <div class="zoom-meta">
+        <div>
+          <h2 id="zoomName" style="margin-bottom:.1rem;"></h2>
+          <div class="sci" id="zoomSci" style="margin-bottom:.2rem;"></div>
+          <div class="zoom-date" id="zoomDate"></div>
+        </div>
+        <button class="trash-btn" id="deleteBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-9 0 1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" stroke="#a53a3a" stroke-width="1.7" stroke-linecap="round"/></svg>
+          Löschen
+        </button>
+      </div>
+      <div class="note-section" id="noteSection">
+        <div class="note-display" id="noteDisplay"></div>
+        <div class="note-edit-fields" id="noteEditFields" style="display:none;">
+          <label for="noteLocation">Ort</label>
+          <input type="text" id="noteLocation" placeholder="z.B. Wald hinter der Schule" />
+          <label for="noteObsDate">Datum</label>
+          <input type="date" id="noteObsDate" />
+          <label for="noteText">Notiz</label>
+          <textarea id="noteText" placeholder="eigene Notizen…"></textarea>
+        </div>
+        <button class="note-save-btn" id="noteSaveBtn" style="display:none;">Speichern</button>
+      </div>
+      <button class="cancel-btn" id="closeZoom">Schließen</button>
+    </div>
+  </div>
+
+  <input type="file" id="camInput" accept="image/*" capture="environment" />
+  <input type="file" id="libInput" accept="image/*" />
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const introBackdrop = document.getElementById('introBackdrop');
+    const introClose = document.getElementById('introClose');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      introBackdrop.classList.add('open');
+    });
+
+    function closeIntro() {
+      introBackdrop.classList.remove('open');
+    }
+
+    introClose.addEventListener('click', closeIntro);
+    introBackdrop.addEventListener('click', e => {
+      if (e.target === introBackdrop) closeIntro();
+    });
+  </script>
+
+  <script>
+    const readmeBackdrop = document.getElementById('readmeBackdrop');
+    const readmeBtn = document.getElementById('readmeBtn');
+    const closeReadme = document.getElementById('closeReadme');
+
+    readmeBtn.addEventListener('click', () => {
+      readmeBackdrop.classList.add('open');
+    });
+    closeReadme.addEventListener('click', () => {
+      readmeBackdrop.classList.remove('open');
+    });
+    readmeBackdrop.addEventListener('click', e => {
+      if (e.target === readmeBackdrop) readmeBackdrop.classList.remove('open');
+    });
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="species.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

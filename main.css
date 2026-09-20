@@ -1,0 +1,853 @@
+/* -------------------------------------------------
+   GLOBAL / BASIC
+   ------------------------------------------------- */
+*{
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;               /* für den Sticky-Footer-Flex-Layout */
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+html {
+  font-family: 'Krub', Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #240d58;
+}
+a:hover {
+  color: #240d58;
+}
+
+/* -------------------------------------------------
+   PICTURE (Kopfbereich mit Avatar)
+   ------------------------------------------------- */
+#picture {
+  margin: 0 auto;
+  max-width: 640px;
+  padding-top: calc(1.2rem + env(safe-area-inset-top));
+  padding-bottom: 0.4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-align: center;
+  line-height: 1;
+  flex: 0 auto;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+}
+
+/* -------------------------------------------------
+   CONTENT (Hauptbereich: Startseite + Kategorieseite)
+   ------------------------------------------------- */
+#content {
+  margin: 0 auto;
+  max-width: 640px;
+  width: 100%;
+  padding: 0.4rem 1rem 2rem;
+  text-align: left;
+  line-height: 1.35;
+  flex: 1 0 auto;
+}
+
+/* Startseite und Kategorieseite liegen beide direkt in #content und sind
+   damit immer gleich breit. Auf schmalen Bildschirmen hat #content ohnehin
+   keine wirksame Breitenbegrenzung (der Viewport ist schmaler als 640px);
+   diese Regel macht das zusätzlich explizit. */
+#homeView,
+#categoryView {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  #content {
+    max-width: none;
+  }
+}
+
+/* -------------------------------------------------
+   INTRO-SHEET (Hinweis beim ersten Öffnen)
+   ------------------------------------------------- */
+.intro-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 70;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.intro-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.intro-sheet {
+  background: #fff;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.3rem 1.3rem calc(1.6rem + env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform 0.25s cubic-bezier(.32, .72, 0, 1);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.intro-backdrop.open .intro-sheet {
+  transform: translateY(0);
+}
+.intro-sheet h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.7rem;
+}
+.intro-sheet p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 0.7rem;
+}
+.intro-close-btn {
+  margin-top: 0.5rem;
+  width: 100%;
+  text-align: center;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #fff;
+  background: #000;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.intro-close-btn:hover {
+  background: #240d58;
+}
+
+/* -------------------------------------------------
+   ANLEITUNG- / BILDNACHWEISE-BUTTON + INHALT
+   ------------------------------------------------- */
+.readme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #240d58;
+  background: #fff;
+  border: 1px solid #240d58;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  margin-bottom: 0.6rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.readme-btn:hover {
+  background: #240d58;
+  color: #fff;
+}
+
+.readme-content {
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+.readme-content h3 {
+  font-size: 1rem;
+  margin: 1rem 0 0.3rem;
+}
+.readme-content h3:first-child {
+  margin-top: 0;
+}
+.readme-content p {
+  margin: 0 0 0.7rem;
+}
+.readme-content ul {
+  margin: 0 0 0.7rem;
+  padding-left: 1.2rem;
+}
+.readme-content li {
+  margin-bottom: 0.3rem;
+}
+
+.credits-content {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.credits-content h3 {
+  font-size: 0.85rem;
+  margin: 1rem 0 0.3rem;
+}
+.credits-content h3:first-child {
+  margin-top: 0;
+}
+.credits-item {
+  margin-bottom: 0.5rem;
+}
+.credits-item .cn {
+  font-weight: bold;
+}
+.credits-item .ca {
+  color: #666;
+  font-size: 0.75rem;
+}
+
+/* -------------------------------------------------
+   FORTSCHRITTSANZEIGE (Kategorieseite, oben)
+   ------------------------------------------------- */
+.progress-stats {
+  margin: 0 0 1.2rem;
+  font-size: 0.9rem;
+}
+.progress-track {
+  height: 8px;
+  background: #eee;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+.progress-fill {
+  height: 100%;
+  background: #240d58;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* -------------------------------------------------
+   SUCHE & FILTER (Kategorieseite)
+   ------------------------------------------------- */
+.search-row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 0 1.2rem;
+}
+.search-row input {
+  flex: 1;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+}
+.filter-btn {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+  background: #000;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.filter-btn:hover {
+  background: #240d58;
+}
+.filter-btn[aria-pressed="true"] {
+  background: #240d58;
+}
+
+/* -------------------------------------------------
+   STARTSEITE: KATEGORIE-KACHELN
+   ------------------------------------------------- */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+@media (min-width: 480px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.category-tile {
+  background: #303D54;
+  color: #fff;
+  border-radius: 0.6rem;
+  padding: 0.9rem 0.7rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 1 / 0.85;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.category-tile:hover {
+  background: #36465a;
+  transform: translateY(-2px);
+}
+.category-tile:active {
+  transform: scale(0.97);
+}
+.category-tile-label {
+  font-weight: bold;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+.category-tile-progress {
+  margin-top: 0.6rem;
+}
+.category-tile-track {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.category-tile-fill {
+  height: 100%;
+  background: #fff;
+  border-radius: 99px;
+}
+.category-tile-frac {
+  font-size: 0.7rem;
+  margin-top: 0.3rem;
+  opacity: 0.9;
+}
+
+/* -------------------------------------------------
+   KATEGORIESEITE: ZURÜCK-BUTTON
+   ------------------------------------------------- */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #240d58;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem 0;
+  margin-bottom: 0.6rem;
+}
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------
+   ARTEN-KACHELN
+   ------------------------------------------------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+@media (max-width: 550px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  position: relative;
+  aspect-ratio: 1 / 1.1;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(36, 13, 88, 0.15);
+  border-color: #240d58;
+}
+.card:active {
+  transform: scale(0.97);
+}
+
+/* Kachel: Art noch nicht fotografiert */
+.card.empty {
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem;
+  border-style: dashed;
+  border-color: #ccc;
+}
+.card.empty .cam {
+  width: 1.3rem;
+  height: 1.3rem;
+  opacity: 0.5;
+}
+.card.empty .name {
+  font-size: 0.72rem;
+  font-weight: bold;
+  line-height: 1.15;
+  text-align: center;
+}
+.card.empty .sci {
+  font-size: 0.55rem;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+}
+/* Blasses Erkennungsbild im Hintergrund der leeren Kachel */
+.card.empty .hint-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;   /* <-- HIER Transparenz anpassen: 0 = unsichtbar, 1 = volle Deckkraft */
+  pointer-events: none;
+  z-index: 0;
+}
+.card.empty .cam,
+.card.empty .name,
+.card.empty .sci {
+  position: relative;
+  z-index: 1;
+}
+
+/* Kachel: Art bereits fotografiert */
+.card.filled img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card.filled .caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.72), transparent);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: bold;
+  padding: 0.8rem 0.4rem 0.3rem;
+  text-align: center;
+  line-height: 1.15;
+}
+.stamp {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: #240d58;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Kachel: eigene, selbst eingetragene Art */
+.card.custom {
+  background: #eef7ee;
+  border-color: #bfe0c0;
+  cursor: default;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.5rem;
+}
+.card.custom .name {
+  font-size: 0.72rem;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.15;
+}
+.card.custom .sci {
+  font-size: 0.55rem;
+  font-style: italic;
+  color: #4a7a4d;
+  text-align: center;
+}
+.card.custom .custom-badge {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  font-size: 0.6rem;
+  background: #2e7d32;
+  color: #fff;
+  border-radius: 0.3rem;
+  padding: 0.05rem 0.3rem;
+}
+.card.custom .delete-x {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e3c9c9;
+  color: #a53a3a;
+  font-size: 0.85rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Kachel: "Eigene Art hinzufügen" */
+.card.add-custom {
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem;
+  border-style: dashed;
+  border-color: #2e7d32;
+  color: #2e7d32;
+}
+.card.add-custom .plus {
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1;
+}
+.card.add-custom .label {
+  font-size: 0.72rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.empty-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* -------------------------------------------------
+   SHEETS (gemeinsame Basis für alle Dialoge von unten)
+   ------------------------------------------------- */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.sheet-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.sheet {
+  background: #fff;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.1rem 1.1rem calc(1.6rem + env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform 0.25s cubic-bezier(.32, .72, 0, 1);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+.sheet-backdrop.open .sheet {
+  transform: translateY(0);
+}
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 99px;
+  margin: 0 auto 0.9rem;
+}
+.sheet h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.1rem;
+}
+.sheet .sci {
+  font-style: italic;
+  color: #666;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+.cancel-btn {
+  margin-top: 0.9rem;
+  width: 100%;
+  text-align: center;
+  background: none;
+  border: none;
+  color: #240d58;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.6rem;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------
+   CAPTURE-SHEET (Foto aufnehmen/eintragen)
+   ------------------------------------------------- */
+.capture-hint-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+.capture-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+.capture-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: bold;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.capture-btn:hover {
+  background: #f7f7f7;
+  border-color: #240d58;
+}
+
+/* -------------------------------------------------
+   ZOOM-SHEET (Foto groß + löschen)
+   ------------------------------------------------- */
+.zoom-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.6rem;
+}
+.zoom-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 0.9rem;
+}
+.zoom-date {
+  font-size: 0.78rem;
+  color: #666;
+  margin-top: 0.15rem;
+}
+.trash-btn {
+  border: 1px solid #e3c9c9;
+  background: #fff6f6;
+  color: #a53a3a;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: bold;
+}
+.trash-btn:hover {
+  background: #fbe6e6;
+}
+
+/* -------------------------------------------------
+   NOTIZEN (im Zoom-Sheet)
+   ------------------------------------------------- */
+.note-section {
+  margin-top: 0.9rem;
+}
+.note-display {
+  font-size: 0.85rem;
+  color: #333;
+  line-height: 1.4;
+  background: #f7f7f7;
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  min-height: 2.4em;
+  white-space: pre-wrap;
+}
+.note-display.empty {
+  color: #999;
+  font-style: italic;
+}
+.note-display:hover {
+  border-color: #240d58;
+}
+.note-edit {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  border: 1px solid #240d58;
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  resize: vertical;
+  min-height: 4.5em;
+  box-sizing: border-box;
+}
+.note-save-btn {
+  margin-top: 0.5rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: bold;
+  color: #fff;
+  background: #000;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+.note-save-btn:hover {
+  background: #240d58;
+}
+
+/* -------------------------------------------------
+   EIGENE ART HINZUFÜGEN (Formular-Sheet)
+   ------------------------------------------------- */
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+}
+.custom-form label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.custom-form input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+.custom-submit-btn {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #fff;
+  background: #2e7d32;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+.custom-submit-btn:hover {
+  background: #256b2a;
+}
+
+/* -------------------------------------------------
+   TOAST (kurze Bestätigungsmeldung unten)
+   ------------------------------------------------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1.3rem + env(safe-area-inset-bottom));
+  transform: translate(-50%, 10px);
+  background: #000;
+  color: #fff;
+  font-size: 0.82rem;
+  padding: 0.6rem 1rem;
+  border-radius: 99px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 60;
+}
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* -------------------------------------------------
+   VERSTECKTE FILE-INPUTS (Kamera / Fotomediathek)
+   ------------------------------------------------- */
+#camInput,
+#libInput {
+  display: none;
+}
+
+/* ----------------------------- */
+
+/* ---------- Notiz-Formular (Ort, Datum, Notiz) ---------- */
+.note-edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.note-edit-fields label {
+  font-size: 0.78rem;
+  font-weight: bold;
+  margin-bottom: -0.3rem;
+}
+.note-edit-fields input,
+.note-edit-fields textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+.note-edit-fields textarea {
+  min-height: 4em;
+  resize: vertical;
+}
+
+/* ---------- PDF-Export-Button ---------- */
+.pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #240d58;
+  background: #fff;
+  border: 1px solid #240d58;
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  margin-left: 0.6rem;
+  margin-bottom: 0.6rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.pdf-btn:hover {
+  background: #240d58;
+  color: #fff;
+}
