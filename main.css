@@ -281,7 +281,7 @@ a:hover {
   }
 }
 .category-tile {
-  background: #303D54;
+  background: #D37131;
   color: #fff;
   border-radius: 0.6rem;
   padding: 0.9rem 0.7rem;
@@ -293,7 +293,7 @@ a:hover {
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 .category-tile:hover {
-  background: #36465a;
+  background: #E36A1D;
   transform: translateY(-2px);
 }
 .category-tile:active {
