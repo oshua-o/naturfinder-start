@@ -851,3 +851,8 @@ a:hover {
   background: #240d58;
   color: #fff;
 }
+
+/* ---------- Wissenschaftliche Namen ausblenden ---------- */
+.sci {
+  display: none;
+}
